@@ -1,0 +1,39 @@
+name: Artifact Management Demo
+
+on: [push] # কোড পুশ করলেই পাইপলাইন শুরু হবে
+
+jobs:
+  # প্রথম ধাপ: বিল্ড করা এবং ফাইল আপলোড করা
+  build_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create a dummy artifact
+        run: |
+          mkdir output
+          echo "This is a built file for deployment" > output/app.txt
+
+      # আর্টফ্যাক্ট আপলোড করার কাজ
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-build-files    # আর্টফ্যাক্টের নাম
+          path: output/           # কোন ফোল্ডার বা ফাইল সেভ করা হবে
+
+  # দ্বিতীয় ধাপ: ফাইল ডাউনলোড করা এবং ডিপ্লয় করা
+  deploy_job:
+    runs-on: ubuntu-latest
+    needs: build_job # নিশ্চিত করে যে আগে বিল্ড জব শেষ হবে
+    steps:
+      # আর্টফ্যাক্ট ডাউনলোড করার কাজ
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: my-build-files    # আপলোড করার সময় যে নাম দিয়েছিলেন
+
+      - name: Display downloaded files
+        run: |
+          ls -R
+          cat app.txt # ফাইলটি ঠিকঠাক ডাউনলোড হয়েছে কিনা তা দেখা
