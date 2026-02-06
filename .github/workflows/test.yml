@@ -13,7 +13,7 @@ jobs:
       - name: Create a dummy artifact
         run: |
           mkdir output
-          echo "This is a built file for deployment" > output/app.txt
+          echo "This is a built file for deployment.new text added by Rony Das" > output/app.txt
 
       # আর্টফ্যাক্ট আপলোড করার কাজ
       - name: Upload Build Artifact
