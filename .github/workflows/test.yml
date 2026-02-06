@@ -5,7 +5,7 @@ on: [push] # কোড পুশ করলেই পাইপলাইন শু
 jobs:
   # প্রথম ধাপ: বিল্ড করা এবং ফাইল আপলোড করা
   build_job:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
 
   # দ্বিতীয় ধাপ: ফাইল ডাউনলোড করা এবং ডিপ্লয় করা
   deploy_job:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build_job # নিশ্চিত করে যে আগে বিল্ড জব শেষ হবে
     steps:
       # আর্টফ্যাক্ট ডাউনলোড করার কাজ
